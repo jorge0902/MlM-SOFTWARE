@@ -1,0 +1,30 @@
+<script>
+(function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const ref = urlParams.get('ref');
+  if (ref) {
+    localStorage.setItem('p_dubai_affiliate', ref);
+  }
+  const originalFetch = window.fetch;
+  window.fetch = async function() {
+    let [resource, config] = arguments;
+    if (config && config.method === 'POST' && typeof resource === 'string' && resource.includes('webhook')) {
+      const affiliateId = localStorage.getItem('p_dubai_affiliate');
+      if (affiliateId && config.body) {
+        try {
+          if (typeof config.body === 'string') {
+            const bodyObj = JSON.parse(config.body);
+            bodyObj.referido_id = affiliateId;
+            config.body = JSON.stringify(bodyObj);
+          } else if (config.body instanceof FormData) {
+            config.body.append('referido_id', affiliateId);
+          }
+        } catch (e) {
+          console.error('Tracking error:', e);
+        }
+      }
+    }
+    return originalFetch(resource, config);
+  };
+})();
+</script>

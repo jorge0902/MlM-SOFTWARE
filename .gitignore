@@ -1,0 +1,31 @@
+# Build artifacts
+dist/
+build/
+bin/
+obj/
+
+# Sensitive files (Credentials)
+sftp_commands.txt
+*.zip
+*.rar
+*.7z
+*.pem
+*.key
+*.pub
+.env*
+secrets.json
+
+# Local config & Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vscode/
+.idea/
+.DS_Store
+
+# User Images
+imagenes de usuario/
+
+# Maintenance scripts
+run_injection.sh
